@@ -1,6 +1,7 @@
 Back End
 1. Installation
  > composer  create-project laravel/laravel project-name
+ > php artisan make:model Model-name -mcr
 
 Front End
 1. Installation
