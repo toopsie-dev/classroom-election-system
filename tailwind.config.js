@@ -6,10 +6,14 @@ export default {
         "./resources/**/*.tsx",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ["Exo 2", "sans-serif"],
+            },
+        },
     },
     plugins: [require("daisyui")],
     daisyui: {
-        themes: ["dim"],
+        themes: ["dracula"],
     },
 };

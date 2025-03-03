@@ -1,7 +1,13 @@
-import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { AppRoutes } from "../routes/Routes";
+import { QueryProvider } from "./providers/QueryProvider";
 
-const App = () => {
-    return <div>Hello World!!</div>;
-};
-
-export default App;
+export default function App() {
+    return (
+        <QueryProvider>
+            <BrowserRouter>
+                <AppRoutes />
+            </BrowserRouter>
+        </QueryProvider>
+    );
+}

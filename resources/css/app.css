@@ -1,3 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        font-family: "Exo 2", sans-serif;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Allow text selection in inputs and textareas */
+    input,
+    textarea {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+}
+
+@layer components {
+    .auth-background {
+        @apply min-h-screen bg-gradient-to-br from-pink-500/30 via-purple-500/30 to-blue-500/30;
+        background-color: #1a1a1a;
+    }
+
+    .glass-card {
+        @apply bg-gray-900/40 backdrop-blur-lg border border-gray-700/30 rounded-3xl shadow-xl;
+    }
+
+    .auth-input {
+        @apply w-full px-4 py-3 bg-gray-800/50 border border-gray-700/30 rounded-xl 
+        text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50
+        transition-all duration-200 ease-in-out hover:bg-gray-800/70;
+    }
+
+    .auth-button {
+        @apply w-full py-3 bg-gradient-to-r from-purple-600 to-blue-500 
+        rounded-xl text-white font-medium hover:opacity-90 transition-all duration-200
+        focus:outline-none focus:ring-2 focus:ring-purple-500/50 transform hover:scale-[0.99]
+        uppercase tracking-wider text-sm;
+    }
+
+    .auth-card-container {
+        @apply w-full max-w-md px-6 py-8;
+    }
+
+    .auth-icon-circle {
+        @apply absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full 
+        glass-card flex items-center justify-center shadow-2xl border-2 border-gray-700/30;
+    }
+
+    .auth-link {
+        @apply text-purple-400 hover:text-purple-300 transition-colors duration-200;
+    }
+
+    .auth-checkbox {
+        @apply mr-2 rounded bg-gray-800/50 border-gray-700 text-purple-500 
+        focus:ring-purple-500/50 focus:ring-offset-0 transition-all duration-200;
+    }
+
+    .dashboard-container {
+        @apply min-h-screen bg-gray-900;
+    }
+
+    .dashboard-topnav {
+        @apply fixed top-0 right-0 left-0 bg-gray-800/50 backdrop-blur-lg border-b border-gray-700/30
+        h-16 flex items-center justify-between px-4 z-50;
+    }
+
+    .dashboard-sidebar {
+        @apply fixed top-16 left-0 bottom-0 w-64 bg-gray-800/30 backdrop-blur-lg
+        border-r border-gray-700/30 p-4;
+    }
+
+    .dashboard-main {
+        @apply pt-16 pl-64 p-6;
+    }
+
+    .sidebar-link {
+        @apply flex items-center space-x-3 px-4 py-2.5 rounded-xl text-gray-300 hover:text-white
+        hover:bg-gray-700/50 transition-all duration-200;
+    }
+
+    .sidebar-link.active {
+        @apply bg-purple-500/20 text-purple-400;
+    }
+
+    .stats-card {
+        @apply glass-card p-6 hover:scale-[1.02] transition-transform duration-200 cursor-pointer;
+    }
+}
