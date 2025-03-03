@@ -1,0 +1,7 @@
+Back End
+1. Installation
+ > composer  create-project laravel/laravel project-name
+
+Front End
+1. Installation
+ > npm install --save-dev @vitejs/plugin-react
