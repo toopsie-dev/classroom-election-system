@@ -8,11 +8,9 @@ import { UserSearch } from "./UserSearch";
 import { UserTable } from "./UserTable";
 
 const mockUser: User = {
-    id: 0,
     name: "John Doe",
     email: "john@example.com",
     avatar: "https://ui-avatars.com/api/?name=John+Doe&background=7C3AED&color=fff",
-    role: "admin",
 };
 
 const mockUsers: User[] = [
@@ -71,7 +69,7 @@ export const Users = () => {
             (user) =>
                 user.name.toLowerCase().includes(searchLower) ||
                 user.email.toLowerCase().includes(searchLower) ||
-                user.role.toLowerCase().includes(searchLower) ||
+                (user.role?.toLowerCase() || "").includes(searchLower) ||
                 (user.classroom?.toLowerCase() || "").includes(searchLower)
         );
     }, [users, searchTerm]);
@@ -107,7 +105,7 @@ export const Users = () => {
             // Add new user
             const newUser = {
                 ...userData,
-                id: Math.max(...users.map((u) => u.id)) + 1,
+                id: Math.max(...users.map((u) => u.id ?? 0)) + 1,
                 avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(
                     userData.name
                 )}&background=7C3AED&color=fff`,

@@ -6,7 +6,7 @@ interface SidebarProps {
     user: {
         name: string;
         email: string;
-        avatar: string;
+        avatar?: string;
     };
 }
 

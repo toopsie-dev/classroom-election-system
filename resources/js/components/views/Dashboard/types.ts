@@ -13,10 +13,10 @@ export interface Stats {
 }
 
 export interface User {
-    id: number;
+    id?: number;
     name: string;
     email: string;
-    avatar: string;
-    role: "admin" | "teacher" | "student";
+    avatar?: string;
+    role?: "admin" | "teacher" | "student";
     classroom?: string;
 }

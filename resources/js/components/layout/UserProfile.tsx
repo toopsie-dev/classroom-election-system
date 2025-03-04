@@ -1,7 +1,7 @@
 interface UserProfileProps {
     name: string;
     email: string;
-    avatar: string;
+    avatar?: string;
 }
 
 export const UserProfile = ({ name, email, avatar }: UserProfileProps) => {
