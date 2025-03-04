@@ -1,17 +1,69 @@
+import apiService from "@/services/api";
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+interface SignupFormData {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+}
+
+const initialFormData: SignupFormData = {
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+};
 
 export const Signup = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState<SignupFormData>(initialFormData);
+    const [error, setError] = useState<string>("");
+
+    const signupMutation = useMutation({
+        mutationFn: async (data: SignupFormData) => {
+            const response = await apiService.post<{ message: string }>(
+                "/signup",
+                data
+            );
+            return response.data;
+        },
+        onSuccess: (data) => {
+            setFormData(initialFormData);
+            navigate("/login");
+        },
+        onError: (error) => {
+            setError("Signup failed. Please try again.");
+            console.error("Signup error:", error);
+        },
     });
+
+    const validateForm = (): boolean => {
+        if (formData.password !== formData.password_confirmation) {
+            setError("Passwords do not match");
+            return false;
+        }
+        if (formData.password.length < 8) {
+            setError("Password must be at least 8 characters long");
+            return false;
+        }
+        return true;
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Signup attempt:", formData);
+        setError("");
+
+        if (!validateForm()) return;
+
+        signupMutation.mutate(formData);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     return (
@@ -36,69 +88,75 @@ export const Signup = () => {
                     </div>
 
                     <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+                        {error && (
+                            <div className="text-red-500 text-sm text-center">
+                                {error}
+                            </div>
+                        )}
+                        {signupMutation.isSuccess && (
+                            <div className="text-green-500 text-sm text-center">
+                                Account created successfully! Redirecting to
+                                login...
+                            </div>
+                        )}
+
                         <div>
                             <input
                                 type="text"
+                                name="name"
                                 placeholder="Full Name"
                                 className="auth-input"
                                 value={formData.name}
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        name: e.target.value,
-                                    })
-                                }
+                                onChange={handleInputChange}
                                 required
+                                disabled={signupMutation.isPending}
                             />
                         </div>
                         <div>
                             <input
                                 type="email"
+                                name="email"
                                 placeholder="Email ID"
                                 className="auth-input"
                                 value={formData.email}
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        email: e.target.value,
-                                    })
-                                }
+                                onChange={handleInputChange}
                                 required
+                                disabled={signupMutation.isPending}
                             />
                         </div>
                         <div>
                             <input
                                 type="password"
+                                name="password"
                                 placeholder="Password"
                                 className="auth-input"
                                 value={formData.password}
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        password: e.target.value,
-                                    })
-                                }
+                                onChange={handleInputChange}
                                 required
+                                disabled={signupMutation.isPending}
                             />
                         </div>
                         <div>
                             <input
                                 type="password"
+                                name="password_confirmation"
                                 placeholder="Confirm Password"
                                 className="auth-input"
                                 value={formData.password_confirmation}
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        password_confirmation: e.target.value,
-                                    })
-                                }
+                                onChange={handleInputChange}
                                 required
+                                disabled={signupMutation.isPending}
                             />
                         </div>
 
-                        <button type="submit" className="auth-button">
-                            Sign up
+                        <button
+                            type="submit"
+                            className="auth-button"
+                            disabled={signupMutation.isPending}
+                        >
+                            {signupMutation.isPending
+                                ? "Signing up..."
+                                : "Sign up"}
                         </button>
 
                         <p className="text-center text-gray-400">
